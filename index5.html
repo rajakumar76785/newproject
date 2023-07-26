@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form onsubmit="savetolocalstorage(event)">
+        <label>Choose Expense Amount</label>
+        <input type="number" name="amount" id="amountinputtage" required>
+        <label>Choose Description</label>
+        <input type="text" name="description" id="descriptioninputtage"required>
+        <label for="categories">Choose a category</label>
+        <select id="mySelect" name ="categories" id="selectioncategories">
+            <option>On vacation</option>
+            <option>Diesel</option>
+            <option>Toffe</option>
+            <option>Movie</option>
+            <option>Fuel</option>
+        </select>
+        <button>Add Expenses</button><br>
+    </form>
+    <ul id="listofitems"></ul>
+    <script>
+        function savetolocalstorage(event){
+           event.preventDefault();
+            const amount=event.target.amount.value;
+            const description=event.target.description.value;
+            const categories=event.target.categories.value;
+            const obj = {
+                amount,
+                description,
+                categories
+            }
+            localStorage.setItem(obj.categories,JSON.stringify(obj));
+            ShowUserOnScreen(obj);
+        }
+        function ShowUserOnScreen(obj){
+            const parentEle=document.getElementById('listofitems');
+            const childEle=document.createElement('li');
+            childEle.textContent=obj.amount+'-'+obj.description+'-'+obj.categories;
+            const deletebtn=document.createElement('input');
+            deletebtn.type='button';
+            deletebtn.value='Delete Expense';
+            deletebtn.onclick= () =>{
+              localStorage.removeItem(obj.categories);
+              parentEle.removeChild(childEle);
+            }
+            const editbtn=document.createElement('input');
+            editbtn.type='button';
+            editbtn.value='Edit Expense';
+            editbtn.onclick= () =>{
+                localStorage.removeItem(obj.email);
+                parentEle.removeChild(childEle);
+                document.getElementById('amountinputtag').value=obj.name;
+                document.getElementById('descriptioninputtag').value=obj.email;
+                document.getElementById('selectioncategories').value=obj.phonenumber;
+            }
+            childEle.appendChild(deletebtn);
+            childEle.appendChild(editbtn);
+            parentEle.appendChild(childEle); 
+        }
+    </script>
+</body>
+</html>
